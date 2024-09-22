@@ -4,19 +4,19 @@ data "aws_iam_policy_document" "surek8sclusterautoscalerassumerolepolicy" {
     actions = ["sts:AssumeRoleWithWebIdentity"]
     effect  = "Allow"
 
+    principals {
+      identifiers = [aws_iam_openid_connect_provider.surek8soidcprovider.arn]
+      type        = "Federated"
+    }
+
     condition {
       test     = "StringEquals"
       variable = "${replace(aws_iam_openid_connect_provider.surek8soidcprovider.url, "https://", "")}:sub"
       values   = ["system:serviceaccount:kube-system:cluster-autoscaler"]
     }
 
-    principals {
-      identifiers = [aws_iam_openid_connect_provider.surek8soidcprovider.arn]
-      type        = "Federated"
-    }
   }
 }
-
 
 resource "aws_iam_role" "surek8sclusterautoscalerrole" {
   assume_role_policy = data.aws_iam_policy_document.surek8sclusterautoscalerassumerolepolicy.json

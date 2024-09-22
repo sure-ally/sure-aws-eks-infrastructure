@@ -8,3 +8,9 @@ variable "global_tags" {
     "Environment" = "dev"
   }
 }
+
+variable "lbc_service_account_name" {
+  type        = string
+  default     = "aws-load-balancer-controller"
+  description = "AWS Load Balancer Controller service account name"
+}
