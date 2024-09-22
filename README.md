@@ -15,8 +15,6 @@ sure-ally\sure-aws-eks-infrastructure\0-eks> terraform plan -destroy
 
 sure-ally\sure-aws-eks-infrastructure\0-eks> terraform apply -destroy
 
-aws eks --region us-east-1 update-kubeconfig --name sure-k8s-cluster
-
 kubectl -n default get svc
 kubectl -n default get po
 kubectl get ns
@@ -48,3 +46,19 @@ sure-ally\sure-aws-eks-infrastructure\0-eks>kubectl apply -f ..\1-eks-manifests\
 kubectl get po
 kubectl describe po nginx-b8ff7547d-9rbg5
 kubectl get nodes
+
+# AWS Load balancer Controller
+Apply 11-iam-oidc-lbc.tf to create -- IAM Policy, Load Balncer Controller IAM Role, Attach IAM Role to Service Account, Create Service Account
+
+Check --
+kubectl -n kube-system get sa
+kubectl -n kube-system describe sa aws-load-balancer-controller
+kubectl -n kube-system get po 
+
+kubectl apply -f sure-ally\sure-aws-eks-manifests\eks-manifests\aws-load-balancer-controller-lsd.yml
+kubectl -n stock-api get svc
+
+Get LB URL
+http://ad68eb900e28443eb8cb2437c20ede38-6d9185d18b00d171.elb.us-east-1.amazonaws.com:5100/stock/GOOG
+
+Troubleshooting: Selecttor - Match labels, OIDC instead of POD identity association

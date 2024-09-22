@@ -37,3 +37,7 @@ resource "aws_eks_cluster" "surek8scluster" {
 
   depends_on = [aws_iam_role_policy_attachment.surek8sclusterrolepolicy]
 }
+
+output "sure_k8s_cluster_endpoint" {
+  value = aws_eks_cluster.surek8scluster.endpoint
+}
