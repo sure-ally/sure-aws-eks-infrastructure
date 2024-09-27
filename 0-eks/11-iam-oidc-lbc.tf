@@ -15,6 +15,7 @@
 #   }
 # }
 
+# IAM role and SA association -- through OIDC. 
 data "aws_iam_policy_document" "sure_k8s_aws_lbc_assume_role_policy" {
 
   statement {

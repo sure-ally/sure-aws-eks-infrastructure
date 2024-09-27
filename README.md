@@ -62,3 +62,18 @@ Get LB URL
 http://ad68eb900e28443eb8cb2437c20ede38-6d9185d18b00d171.elb.us-east-1.amazonaws.com:5100/stock/GOOG
 
 Troubleshooting: Selecttor - Match labels, OIDC instead of POD identity association
+
+# Pod identity - Auto Scaler
+12-eks-addons
+
+aws eks describe-addon-versions --region us-east-1 --addon-name eks-pod-identity-agent
+
+kubectl -n kube-system get po
+kubectl -n kube-system get daemonset
+
+kubectl apply -f sure-ally\sure-aws-eks-manifests\stock-services\deployment.yml
+kubectl scale deploy stock-api-d --replicas 5
+
+To check In powershell: 
+while ($true) {kubectl get nodes; sleep 1; clear}
+while ($true) {kubectl get po; sleep 1; clear}
